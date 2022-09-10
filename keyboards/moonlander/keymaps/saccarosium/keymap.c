@@ -23,6 +23,7 @@
 
 enum layers {
     BASE,  // default layer
+    MOV, // navigation keys
     FN,  // function keys
 };
 
@@ -37,8 +38,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_QUOTE,KC_COMM, KC_DOT,  KC_P,    KC_Y,    _______,           _______, KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
         CTL_T(KC_ESC),KC_A,KC_O,   KC_E,    KC_U,    KC_I,    _______,           _______, KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    CTL_T(KC_MINS),
         KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,                                KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT,
-        TT(FN),  _______, _______, KC_DOWN, KC_UP,            KC_LALT,           KC_RALT,          KC_LEFT, KC_RIGHT, _______, _______, TT(FN),
+        _______, _______, _______, _______, TT(MOV),          KC_LALT,           KC_RALT,          TT(FN),  _______, _______, _______, _______,
                                    KC_SPC,  LGUI_T(KC_ENT),   _______,           _______, KC_RGUI, KC_BSPC
+    ),
+
+    [MOV] = LAYOUT_moonlander(
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______, KC_HOME, KC_UP,   KC_END,  _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
+        _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
+                                            _______, _______, _______,           _______, _______, _______
     ),
 
     [FN] = LAYOUT_moonlander(
@@ -46,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, KC_VOLD, KC_MUTE, KC_VOLU, _______, _______,           _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   _______,           _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
         _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,         _______,            _______,          _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,           _______, _______, _______
     ),
 };
@@ -73,10 +83,8 @@ const key_override_t _8   = ko_make_basic(MOD_MASK_SHIFT, KC_8,   KC_RCBR);
 const key_override_t _9   = ko_make_basic(MOD_MASK_SHIFT, KC_9,   KC_RBRC);
 const key_override_t _0   = ko_make_basic(MOD_MASK_SHIFT, KC_0,   KC_ASTR);
 const key_override_t circ = ko_make_basic(MOD_MASK_SHIFT, KC_DOLLAR, KC_CIRC);
-const key_override_t home = ko_make_basic(MOD_MASK_SHIFT, KC_LEFT, KC_HOME);
-const key_override_t end  = ko_make_basic(MOD_MASK_SHIFT, KC_RIGHT, KC_END);
 const key_override_t at   = ko_make_basic(MOD_MASK_ALT,   KC_T, KC_AT);
-const key_override_t percent   = ko_make_basic(MOD_MASK_ALT,   KC_P, KC_PERC);
+const key_override_t perc = ko_make_basic(MOD_MASK_ALT,   KC_P, KC_PERC);
 const key_override_t bsls = ko_make_basic(MOD_MASK_ALT,   KC_SLSH, KC_BSLS);
 
 // This globally defines all key overrides to be used
@@ -91,11 +99,9 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &_8,
     &_9,
     &_0,
-    &home,
-    &end,
     &at,
     &bsls,
-    &percent,
+    &perc,
     &circ,
 
     NULL // Null terminate the array of overrides!
