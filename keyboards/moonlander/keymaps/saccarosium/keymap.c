@@ -16,15 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include QMK_KEYBOARD_H
 #include "version.h"
 
 enum layers {
-    BASE,  // default layer
-    MOV, // navigation keys
-    FN,  // function keys
+    BAS,  // default layer
+    HIG, // symbols layer
+    LOW,  // extended layer
 };
 
 enum custom_keycodes {
@@ -33,32 +31,33 @@ enum custom_keycodes {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [BASE] = LAYOUT_moonlander(
-        KC_DOLLAR,KC_1,   KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
+    [BAS] = LAYOUT_moonlander(
+        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
         KC_TAB,  KC_QUOTE,KC_COMM, KC_DOT,  KC_P,    KC_Y,    _______,           _______, KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH,
-        CTL_T(KC_ESC),KC_A,KC_O,   KC_E,    KC_U,    KC_I,    _______,           _______, KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    CTL_T(KC_MINS),
+        KC_ESC,  KC_A,    KC_O,    ALT_T(KC_E),GUI_T(KC_U), KC_I,_______,        _______, KC_D,    GUI_T(KC_H),RALT_T(KC_T),  KC_N,    KC_S,    KC_MINS,
         KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,                                KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT,
-        _______, _______, _______, _______, TT(MOV),          KC_LALT,           KC_RALT,          TT(FN),  _______, _______, _______, _______,
-                                   KC_SPC,  LGUI_T(KC_ENT),   _______,           _______, KC_RGUI, KC_BSPC
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
+                                    KC_SPC, LT(HIG,KC_ENTER), _______,           _______, TT(LOW), CTL_T(KC_BSPC)
     ),
 
-    [MOV] = LAYOUT_moonlander(
+    [HIG] = LAYOUT_moonlander(
         _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, KC_HOME, KC_UP,   KC_END,  _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
-        _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+        _______, KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   _______,           _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
+        _______, KC_F1,   KC_VOLD, KC_MUTE, KC_VOLU, _______,                             _______, KC_MPRV, KC_MPLY, KC_MNXT, KC_F12,  _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,           _______, _______, _______
     ),
 
-    [FN] = LAYOUT_moonlander(
+    [LOW] = LAYOUT_moonlander(
         _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, KC_VOLD, KC_MUTE, KC_VOLU, _______, _______,           _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   _______,           _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-        _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
+        _______, KC_EXLM, KC_RCBR, KC_RBRC, KC_RPRN, KC_GRV,  _______,           _______, KC_PERC, KC_TILD, KC_PIPE, KC_HASH, KC_DLR,  _______,
+        _______, KC_AT,   KC_LCBR, KC_LBRC, KC_LPRN, KC_AMPR, _______,           _______, KC_CIRC, KC_EQL,  KC_PLUS, KC_ASTR, KC_BSLS, _______,
+        _______, _______, _______, KC_DOWN, KC_UP,   _______,                             _______, KC_RGHT, KC_LEFT, _______, _______, _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,           _______, _______, _______
     ),
+
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -71,38 +70,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-const key_override_t _1   = ko_make_basic(MOD_MASK_SHIFT, KC_1,   KC_AMPR);
-const key_override_t _2   = ko_make_basic(MOD_MASK_SHIFT, KC_2,   KC_LBRC);
-const key_override_t _3   = ko_make_basic(MOD_MASK_SHIFT, KC_3,   KC_LCBR);
-const key_override_t _4   = ko_make_basic(MOD_MASK_SHIFT, KC_4,   KC_LPRN);
-const key_override_t _5   = ko_make_basic(MOD_MASK_SHIFT, KC_5,   KC_PLUS);
-const key_override_t _6   = ko_make_basic(MOD_MASK_SHIFT, KC_6,   KC_EQL);
-const key_override_t _7   = ko_make_basic(MOD_MASK_SHIFT, KC_7,   KC_RPRN);
-const key_override_t _8   = ko_make_basic(MOD_MASK_SHIFT, KC_8,   KC_RCBR);
-const key_override_t _9   = ko_make_basic(MOD_MASK_SHIFT, KC_9,   KC_RBRC);
-const key_override_t _0   = ko_make_basic(MOD_MASK_SHIFT, KC_0,   KC_ASTR);
-const key_override_t circ = ko_make_basic(MOD_MASK_SHIFT, KC_DOLLAR, KC_CIRC);
-const key_override_t at   = ko_make_basic(MOD_MASK_ALT,   KC_T, KC_AT);
-const key_override_t perc = ko_make_basic(MOD_MASK_ALT,   KC_P, KC_PERC);
-const key_override_t bsls = ko_make_basic(MOD_MASK_ALT,   KC_SLSH, KC_BSLS);
-
-// This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &_1,
-    &_2,
-    &_3,
-    &_4,
-    &_5,
-    &_6,
-    &_7,
-    &_8,
-    &_9,
-    &_0,
-    &at,
-    &bsls,
-    &perc,
-    &circ,
-
-    NULL // Null terminate the array of overrides!
-};

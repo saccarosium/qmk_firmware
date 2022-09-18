@@ -19,3 +19,7 @@
 #pragma once
 
 #define ORYX_CONFIGURATOR
+#define TAPPING_TOGGLE 1
+#define TAPPING_TERM 170
+#define IGNORE_MOD_TAP_INTERRUPT
+#define TAPPING_TERM_PER_KEY
